@@ -1,30 +1,27 @@
 import { Injectable } from '@angular/core';
-import { Http, Headers, RequestOptions, Response } from '@angular/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { catchError } from 'rxjs/operators';
 import { Observable } from 'rxjs/Observable';
 
 @Injectable()
 export class NemeaStatusService {
-    constructor(private http: Http) {}
+    constructor(private http: HttpClient) {}
 
     stats() {
-        return this.http.get('/nemea/status/stats').map(
-            (response: Response) => {
-                const body: Object = response.json();
-                return body;
-            })
-            .catch(this.handleError);
+        return this.http.get<object>('/nemea/status/stats')
+            .pipe(
+                catchError(this.handleError)
+            );
     }
 
     topology() {
-        return this.http.get('/nemea/status').map(
-            (response: Response) => {
-                const body = response.json();
-                return body;
-            })
-            .catch(this.handleError);
+        return this.http.get<object>('/nemea/status')
+            .pipe(
+                catchError(this.handleError)
+            );
     }
 
     private handleError(err: Response | any) {
-        return Promise.reject(err);
+        return Observable.throw(err);
     }
 }

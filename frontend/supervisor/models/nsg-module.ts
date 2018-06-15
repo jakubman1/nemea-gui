@@ -39,7 +39,9 @@ export class NsgModule {
         });
     }
 
-    static newFromApi(obj) {
+    static newFromApi(obj): NsgModule {
+        console.log('newFromApi object:');
+        console.log(obj);
         if (obj.constructor.name === 'String') {
             obj = JSON.parse(obj);
         }

@@ -16,7 +16,7 @@ export class NsgInstance {
     restarting = false; // serves to tell that instance's status is being changed
 
     constructor(fields: any) {
-        console.log('instance constructor')
+        console.log('instance constructor');
         if (fields['in_ifces']) {
             fields['in_ifces'] = fields['in_ifces'].map(i => new NsgInterface(i));
         }

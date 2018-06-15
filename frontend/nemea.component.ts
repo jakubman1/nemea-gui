@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 
+//TODO: Add responsive menu, move this to separate html file
 @Component({
     selector : 'nemea',
     template : `<router-outlet></router-outlet>`
 })
-export class NemeaBaseComponent {};
+export class NemeaBaseComponent {}
 
 @Component({
     selector : 'nemea-view',

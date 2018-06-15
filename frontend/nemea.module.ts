@@ -201,4 +201,4 @@ const nemeaRoutes: Routes = [
         DashModalComponent
     ]
 })
-export class NemeaModule {};
+export class NemeaModule {}

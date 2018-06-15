@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, Output, ViewChild, EventEmitter } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { DashBoxModalComponent } from '../dash-box-modal/dash-box-modal.component';
-
+import { map } from 'rxjs/operators';
 
 import { BoxService } from '../box.service';
 import { Box } from '../box';
@@ -125,7 +125,7 @@ export class DashBoxComponent implements OnInit {
                 item.date = item.name;
                 item.name = new Date(item.name*1000);
                 return item;
-            })
+            });
 
             return category;
         })

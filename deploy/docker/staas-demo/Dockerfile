@@ -17,7 +17,7 @@ COPY httpd.conf /etc/httpd/conf/httpd.conf
 
 # Install STaaS GUI
 RUN cd /var/www && \
-  git clone https://github.com/CESNET/liberouter-gui && cd liberouter-gui/modules && \
+  git clone -b devel https://github.com/CESNET/liberouter-gui && cd liberouter-gui/modules && \
   rm -r example/ && mkdir -p assets/img/ && touch assets/img/logo.png && \
   git clone https://github.com/CESNET/Staas-GUI && mv Staas-GUI/* . && \
   rm -rf NEMEA/ Staas-GUI/ examples/ 
@@ -34,7 +34,7 @@ EXPOSE 80/tcp
 
 # Build frontend files
 WORKDIR /var/www/liberouter-gui/frontend
-RUN ng build --preserve-symlinks --prod --bh="/" --aot=false
+RUN ng build --prod --base-href="/"
 RUN cp -R dist/* /var/www/html/
 RUN chown -R apache:apache /var/www/
 

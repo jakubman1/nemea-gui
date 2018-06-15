@@ -4,7 +4,7 @@ import {Injectable} from '@angular/core';
 export class ErrParserService {
 
     toArr(errorResponse : any) {
-        const obj = errorResponse.json();
+        const obj = errorResponse;
         if ('message' in obj) {
             let msg = obj['message'];
 

@@ -1,26 +1,25 @@
 import { Injectable } from '@angular/core';
-import { Http, Headers, RequestOptions, Response, URLSearchParams } from '@angular/http';
+import { HttpClient } from '@angular/common/http';
+import { catchError } from 'rxjs/operators';
 import { Observable } from 'rxjs/Observable';
 
 @Injectable()
 export class ReporterService {
 
-    constructor(private http: Http) { }
+    constructor(private http: HttpClient) { }
 
     get() {
-        return this.http.get('/nemea/reporters/config').map(
-            (response: Response) => {
-                return response.json();
-            })
-            .catch(this.handleError);
+        return this.http.get<object>('/nemea/reporters/config')
+            .pipe(
+                catchError(this.handleError)
+            );
     }
 
     update(data: Object) {
-        return this.http.put('/nemea/reporters/config', data).map(
-            (response: Response) => {
-                return response.json();
-            })
-            .catch(this.handleError)
+        return this.http.put('/nemea/reporters/config', data)
+            .pipe(
+                catchError(this.handleError)
+            );
     }
 
 
@@ -38,7 +37,7 @@ export class ReporterService {
     }
 
     private handleError(err: Response | any) {
-        return Promise.reject(err);
+        return Observable.throw(err);
     }
 
 }
