@@ -14,21 +14,41 @@ export class NsgInstancesService {
     getAllInstances(): Observable<NsgInstance[]> {
         return this.http.get<NsgInstance[]>('/nemea/instances')
             .pipe(
-                map((response: object) => NsgInstance.newFromApi(response))
+                map((response: object) => {
+                    let result = [];
+                    for(let instance in response['data']) {
+                        result.push(NsgInstance.newFromApi(instance));
+                    }
+                    return result;
+                })
             );
     }
 
     getAllInstancesNames(): Observable<string[]> {
         return this.http.get<string[]>('/nemea/instances')
             .pipe(
-                map((response: object) => response['name'])
+                //map((response: object) => response['name'])
+                map((response: object) => {
+                    let result = [];
+                    for(let instance in response['data']) {
+                        result.push(NsgInstance.newFromApi(instance));
+                    }
+                    return result;
+                })
             );
     }
 
     getAllInstancesByModuleName(moduleName: string): Observable<NsgInstance[]> {
         return this.http.get<NsgInstance[]>(`/nemea/modules/${moduleName}/instances`)
             .pipe(
-                map((response: object) => NsgInstance.newFromApi(response))
+                //map((response: object) => NsgInstance.newFromApi(response))
+                map((response: object) => {
+                    let result = [];
+                    for(let instance in response) {
+                        result.push(NsgInstance.newFromApi(instance['data']));
+                    }
+                    return result;
+                })
             );
     }
 

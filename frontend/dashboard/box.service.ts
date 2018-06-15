@@ -8,7 +8,7 @@ export class BoxService {
 
     constructor(private http: HttpClient) {}
 
-    piechart(box): Observable<object> {
+    piechart(box): Observable<any[]> {
         /**
           * Set time window
           * The difference in capitalization is because of backward compatibility
@@ -20,13 +20,13 @@ export class BoxService {
             .set('type', 'piechart');
 
 
-        return this.http.get<object>('/nemea/events/aggregate', { params: params })
+        return this.http.get<any[]>('/nemea/events/aggregate', { params: params })
             .pipe(
                 catchError(BoxService.handleError)
             );
     }
 
-    barchart(box): Observable<object> {
+    barchart(box): Observable<any[]> {
 
         /**
           * Set time window
@@ -39,7 +39,7 @@ export class BoxService {
             .set('type', 'barchart');
 
 
-        return this.http.get<object>('/nemea/events/aggregate', { params: params })
+        return this.http.get<any[]>('/nemea/events/aggregate', { params: params })
             .pipe(
                 catchError(BoxService.handleError)
             );
@@ -52,7 +52,7 @@ export class BoxService {
             .set('category', 'any');
 
 
-        return this.http.get('/nemea/events/count', {params: params})
+        return this.http.get<any[]>('/nemea/events/count', {params: params})
             .pipe(
                 catchError(BoxService.handleError)
             );
@@ -63,7 +63,7 @@ export class BoxService {
             .set('begintime', box['beginTime'])
             .set('endtime', box['endTime']);
 
-        return this.http.get('/nemea/events/top', { params: params })
+        return this.http.get<any[]>('/nemea/events/top', { params: params })
             .pipe(
                 catchError(BoxService.handleError)
             );

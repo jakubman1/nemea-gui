@@ -25,7 +25,7 @@ COPY wsgi.py /var/www/liberouter-gui/backend/wsgi.py
 
 # Install NEMEA GUI
 RUN cd /var/www/liberouter-gui/modules && \
-  git clone https://github.com/zidekmat/nemea-gui nemea/ && \
+  git clone -b devel https://github.com/jakubman1/nemea-gui nemea/ && \
   cd ../ && python3 bootstrap.py && cd frontend/ && npm install --allow-root && \
   cd ../ && pip3 install -r backend/requirements.txt
 

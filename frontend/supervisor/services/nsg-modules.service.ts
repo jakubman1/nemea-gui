@@ -5,6 +5,7 @@ import { map } from 'rxjs/operators';
 import { Observable } from 'rxjs/Observable';
 import { NsgModule } from "../models/nsg-module";
 import { of } from 'rxjs/observable/of';
+import {NsgInstance} from "../models/nsg-instance";
 
 @Injectable()
 export class NsgModulesService {
@@ -12,9 +13,17 @@ export class NsgModulesService {
     constructor(private http: HttpClient) {}
 
     getAllModules() : Observable<NsgModule[]> {
+        console.log("This is new version, getting all modules");
         return this.http.get<NsgModule[]>('/nemea/modules')
             .pipe(
-                map((m: object) => NsgModule.newFromApi(m))
+                //map((m: object) => NsgModule.newFromApi(m))
+                map((response: object) => {
+                    let result = [];
+                    for(let instance in response['data']) {
+                        result.push(NsgInstance.newFromApi(instance));
+                    }
+                    return result;
+                })
             );
     }
 
