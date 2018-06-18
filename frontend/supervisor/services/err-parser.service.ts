@@ -3,7 +3,7 @@ import {Injectable} from '@angular/core';
 @Injectable()
 export class ErrParserService {
 
-    toArr(errorResponse : object) { //TODO: This should be static
+    toArr(errorResponse : object) {
         const obj = errorResponse;
         if ('message' in obj) {
             let msg = obj['message'];

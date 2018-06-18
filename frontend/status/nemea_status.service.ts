@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { catchError, tap } from 'rxjs/operators';
+import { catchError } from 'rxjs/operators';
 import { Observable } from 'rxjs/Observable';
 
 @Injectable()
@@ -15,12 +15,8 @@ export class NemeaStatusService {
     }
 
     topology() {
-        return this.http.get<object>('/nemea/status') //FIXME this needs to be iterable, not an object!
+        return this.http.get<object>('/nemea/status')
             .pipe(
-                tap((r: object) => {
-                    console.log('Getting topology');
-                    console.log(r);
-                }),
                 catchError(this.handleError)
             );
     }
