@@ -58,7 +58,7 @@ export class NsgModuleEditComponent implements OnInit {
                 (error) => {
                     console.log('Failed to update module:');
                     console.log(error);
-                    this.backendErrors = this.errParser.toArr(error);
+                    this.backendErrors = this.errParser.toArr(error['error']['message']);
                 }
             );
         } else {
@@ -70,7 +70,7 @@ export class NsgModuleEditComponent implements OnInit {
                 (error) => {
                     console.log('Failed to create module:');
                     console.log(error);
-                    this.backendErrors = this.errParser.toArr(error);
+                    this.backendErrors = this.errParser.toArr(error['error']['message']);
                 }
             );
         }
