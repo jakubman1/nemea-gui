@@ -11,12 +11,12 @@ import { ReporterService } from './reporter.service';
 })
 export class NemeaReporterConfComponent implements OnInit {
 
-    error: Object;
-    success = {
+    error: object;
+    success: object = {
         message : 'Configuration saved. You should restart reporters now.',
         success : false
     };
-    config: Object = {};
+    config: object = {};
 
     constructor(private router: Router,
                 private reporterService: ReporterService) {}
@@ -36,13 +36,13 @@ export class NemeaReporterConfComponent implements OnInit {
     }
 
     saveConfig() {
-        this.success.success = false;
+        this.success['success'] = false;
         this.reporterService.update(this.config).subscribe(
             (data) => {
                 this.config = data;
-                this.success.success = true;
+                this.success['success'] = true;
             },
-            (error: Object) => this.processError(error)
+            (error: object) => this.processError(error)
         );
     }
 
@@ -51,28 +51,28 @@ export class NemeaReporterConfComponent implements OnInit {
         this.config['addressgroups'].push(newaddr)
     }
 
-    addAddrGroupIP(list: Object) {
+    addAddrGroupIP(list: object) {
         this.config['addressgroups']['list'].push('');
     }
 
     remove(section: string, index: number) {
-        console.log('deleting', index)
+        console.log('deleting', index);
         this.config[section].splice(index, 1);
     }
 
     getActionType(item: Object): String {
         if ('mongo' in item) {
-            return 'mongo'
+            return 'mongo';
         } else if ('file' in item) {
-            return 'file'
+            return 'file';
         } else if ('mark' in item) {
-            return 'mark'
+            return 'mark';
         } else if ('email' in item) {
-            return 'email'
+            return 'email';
         } else if ('trap' in item) {
-            return 'trap'
+            return 'trap';
         } else if ('warden' in item) {
-            return 'warden'
+            return 'warden';
         }
     }
 
@@ -83,14 +83,14 @@ export class NemeaReporterConfComponent implements OnInit {
     addAction(item_type: string) {
         const item = {
             'id' : ''
-        }
-        console.log(item_type)
+        };
+        console.log(item_type);
         switch(item_type) {
             case 'mongo' : {
                 item['mongo'] = {
                     'db' : '',
                     'collection' : ''
-                }
+                };
 
                 break;
             }
@@ -99,18 +99,18 @@ export class NemeaReporterConfComponent implements OnInit {
                 item['mark'] = {
                     'path' : '',
                     'value' : ''
-                }
+                };
 
                 break;
             }
 
             case 'file' : {
-                item['file'] = {}
+                item['file'] = {};
                 break;
             }
 
             default : {
-                item[item_type] = {}
+                item[item_type] = {};
                 break;
             }
 
@@ -124,13 +124,13 @@ export class NemeaReporterConfComponent implements OnInit {
       */
     private processError(error: Object) {
         console.log(error);
-        this.success.success = false;
-        this.error = JSON.parse(error['_body']);
+        this.success['success'] = false;
+        this.error = error['error']['message'];
 
         this.config = {
             'rules' : [],
             'custom_actions' : [],
             'addressgroups' : []
-        }
+        };
     }
 }

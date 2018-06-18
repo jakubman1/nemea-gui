@@ -42,7 +42,7 @@ export class NsgModuleEditComponent implements OnInit {
     }
 
     resetForm() {
-        this.nsgModule = new NsgModule(JSON.parse(JSON.stringify(this.passedModule)));
+        this.nsgModule = new NsgModule(JSON.parse(JSON.stringify(this.passedModule))); //TODO: FIX THIS
     }
 
     onSubmit() {

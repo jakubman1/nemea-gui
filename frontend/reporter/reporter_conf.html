@@ -5,7 +5,7 @@
 </h2>
 
 <div class="alert alert-danger" *ngIf="error?.error">
-	{{ error.message }}
+	{{ error['message'] }}
 </div>
 
 <form novalidate (ngSubmit)="saveConfig()" class="container-fluid" #form="ngForm">
@@ -19,90 +19,96 @@
 					placement="right">
 				</span>
 			</h4>
-			<div class="row form-group pb-3" *ngFor="let item of config.addressgroups; let i = index">
-				<div class="col-3">
-					<div class="input-group">
+			<div *ngIf="config.addressgroups">
+                <div class="row form-group pb-3" *ngFor="let item of config.addressgroups; let i = index">
+                    <div class="col-3">
+                        <div class="input-group">
 						<span class="btn btn-danger input-group-addon"
-							(click)="remove('addressgroups', i)">
+                              (click)="remove('addressgroups', i)">
 							&times;
 						</span>
-						<span class="input-group-addon">
+                            <span class="input-group-addon">
 							ID
 						</span>
-						<input name="ag-id-{{ i }}"
-							[(ngModel)]="item.id"
-							class="form-control"
-							required>
-					</div>
-				</div>
-				<div class="col" *ngIf="item.list">
-					<div class="list-group">
-						<div class="list-group-item">
-							<h6>IP Addresses <span class="fa fa-info-circle"
-												aria-hidden="true"
-												ngbPopover="Specify a list of IP address on which rules can be applied."
-												triggers="mouseenter:mouseleave"
-												placement="right">
+                            <input name="ag-id-{{ i }}"
+                                   [(ngModel)]="item.id"
+                                   class="form-control"
+                                   required>
+                        </div>
+                    </div>
+                    <div class="col" *ngIf="item.list">
+                        <div class="list-group">
+                            <div class="list-group-item">
+                                <h6>IP Addresses <span class="fa fa-info-circle"
+                                                       aria-hidden="true"
+                                                       ngbPopover="Specify a list of IP address on which rules can be applied."
+                                                       triggers="mouseenter:mouseleave"
+                                                       placement="right">
 											</span>
-							</h6>
-						</div>
-						<div class="input-group list-group-item"
-							*ngFor="let addr of item.list; let addr_i = index;">
+                                </h6>
+                            </div>
+                            <div class="input-group list-group-item"
+                                 *ngFor="let addr of item.list; let addr_i = index;">
 							<span class="input-group-btn">
 								<button class="btn btn-danger"
-									type="button"
-									(click)="item.list.splice(addr_i, 1)">&times;</button>
+                                        type="button"
+                                        (click)="item.list.splice(addr_i, 1)">&times;</button>
 							</span>
-							<input name="ag-ip-{{addr_i}}"
-								class="form-control"
-								[(ngModel)]="item.list[addr_i]">
-						</div>
-						<div class="list-group-item active btn btn-primary"
-							(click)="item.list.push('')">
-							Add IP address
-						</div>
-					</div>
-				</div>
+                                <input name="ag-ip-{{addr_i}}"
+                                       class="form-control"
+                                       [(ngModel)]="item.list[addr_i]">
+                            </div>
+                            <div class="list-group-item active btn btn-primary"
+                                 (click)="item.list.push('')">
+                                Add IP address
+                            </div>
+                        </div>
+                    </div>
 
-				<div class="col" *ngIf="item.file">
-					<div class="input-group">
-						<span class="input-group-addon">Path to file</span>
-						<input name="ag-file-{{ i }}"
-							[(ngModel)]="item.file"
-							class="form-control"
-							required>
-					</div>
-				</div>
-			</div>
+                    <div class="col" *ngIf="item.file">
+                        <div class="input-group">
+                            <span class="input-group-addon">Path to file</span>
+                            <input name="ag-file-{{ i }}"
+                                   [(ngModel)]="item.file"
+                                   class="form-control"
+                                   required>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-			<div class="btn btn-primary" (click)="addAddrGroup(0)">Add Address Group with File</div>
-			<div class="btn btn-primary" (click)="addAddrGroup(1)">Add Address Group with List</div>
+
+			<div class="btn btn-primary" (click)="addAddrGroup(false)">Add Address Group with File</div>
+			<div class="btn btn-primary" (click)="addAddrGroup(true)">Add Address Group with List</div>
 		</div>
 	</div>
 
 	<div class="card my-4">
 		<div class="card-body">
 			<h4 class="card-title">Custom Actions</h4>
-			<div class="row form-group custom_actions pb-3" *ngFor="let item of config.custom_actions; let i = index">
-				<div class="col-3">
-					<div class="input-group">
-						<span class="btn btn-danger input-group-addon" (click)="remove('custom_actions', i)">&times;</span>
-						<span class="input-group-addon">ID</span>
-						<input name="r-id-{{ i }}"
-							[(ngModel)]="item.id"
-							class="form-control"
-							required>
-					</div>
-				</div>
-				<div class="col-8" [ngSwitch]="getActionType(item)">
-					<mongo-action *ngSwitchCase="'mongo'" [data]="item['mongo']"></mongo-action>
-					<mark-action *ngSwitchCase="'mark'" [data]="item['mark']"></mark-action>
-					<file-action *ngSwitchCase="'file'" [data]="item['file']"></file-action>
-					<email-action *ngSwitchCase="'email'" [data]="item['email']"></email-action>
-					<trap-action *ngSwitchCase="'trap'" [data]="item['trap']"></trap-action>
-					<warden-action *ngSwitchCase="'warden'" [data]="item['warden']"></warden-action>
-				</div>
-			</div>
+            <div *ngIf="config.custom_actions">
+                <div class="row form-group custom_actions pb-3" *ngFor="let item of config.custom_actions; let i = index">
+                    <div class="col-3">
+                        <div class="input-group">
+                            <span class="btn btn-danger input-group-addon" (click)="remove('custom_actions', i)">&times;</span>
+                            <span class="input-group-addon">ID</span>
+                            <input name="r-id-{{ i }}"
+                                   [(ngModel)]="item.id"
+                                   class="form-control"
+                                   required>
+                        </div>
+                    </div>
+                    <div class="col-8" [ngSwitch]="getActionType(item)">
+                        <mongo-action *ngSwitchCase="'mongo'" [data]="item['mongo']"></mongo-action>
+                        <mark-action *ngSwitchCase="'mark'" [data]="item['mark']"></mark-action>
+                        <file-action *ngSwitchCase="'file'" [data]="item['file']"></file-action>
+                        <email-action *ngSwitchCase="'email'" [data]="item['email']"></email-action>
+                        <trap-action *ngSwitchCase="'trap'" [data]="item['trap']"></trap-action>
+                        <warden-action *ngSwitchCase="'warden'" [data]="item['warden']"></warden-action>
+                    </div>
+                </div>
+            </div>
+
 
 			<div ngbDropdown>
 				<div class="btn btn-primary" ngbDropdownToggle

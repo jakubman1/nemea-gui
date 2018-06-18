@@ -14,10 +14,10 @@ export class NsgInstancesService {
     getAllInstances(): Observable<NsgInstance[]> {
         return this.http.get<NsgInstance[]>('/nemea/instances')
             .pipe(
-                map((response: object) => {
+                map((response: object[]) => {
                     let result = [];
-                    for(let instance in response['data']) {
-                        result.push(NsgInstance.newFromApi(instance));
+                    for(let i: number = 0; i < response.length; i++) {
+                        result.push(NsgInstance.newFromApi(response[i]));
                     }
                     return result;
                 })
@@ -28,10 +28,15 @@ export class NsgInstancesService {
         return this.http.get<string[]>('/nemea/instances')
             .pipe(
                 //map((response: object) => response['name'])
+                tap((r: object) => {
+                    console.log('Getting all instance names:');
+                    console.log(r);
+                }),
                 map((response: object) => {
                     let result = [];
+
                     for(let instance in response['data']) {
-                        result.push(NsgInstance.newFromApi(instance));
+                        result.push(instance['name']);
                     }
                     return result;
                 })

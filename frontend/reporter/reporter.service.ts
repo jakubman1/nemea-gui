@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { catchError } from 'rxjs/operators';
+import { catchError, tap } from 'rxjs/operators';
 import { Observable } from 'rxjs/Observable';
 
 @Injectable()
@@ -15,7 +15,7 @@ export class ReporterService {
             );
     }
 
-    update(data: Object) {
+    update(data: object) {
         return this.http.put('/nemea/reporters/config', data)
             .pipe(
                 catchError(this.handleError)

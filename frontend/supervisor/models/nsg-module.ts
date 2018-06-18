@@ -25,8 +25,8 @@ export class NsgModule {
         });
     }
 
-    apiJson(): string {
-        return JSON.stringify({
+    apiJson(): object {
+        return {
             name: this.name,
             path: this.path,
             description: this.description,
@@ -36,7 +36,7 @@ export class NsgModule {
             'is-sysrepo-ready': this.is_sysrepo_ready,
             'trap-ifces-cli': this.trap_ifces_cli,
             'trap-monitorable': this.trap_monitorable
-        });
+        };
     }
 
     static newFromApi(obj): NsgModule {

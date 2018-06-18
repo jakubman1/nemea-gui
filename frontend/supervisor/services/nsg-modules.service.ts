@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 // import { Http, Headers, RequestOptions, Response } from '@angular/http';
 import { HttpClient, HttpParams, HttpErrorResponse } from '@angular/common/http';
-import { map } from 'rxjs/operators';
+import { map, tap, catchError } from 'rxjs/operators';
 import { Observable } from 'rxjs/Observable';
 import { NsgModule } from "../models/nsg-module";
 import { of } from 'rxjs/observable/of';
@@ -13,17 +13,17 @@ export class NsgModulesService {
     constructor(private http: HttpClient) {}
 
     getAllModules() : Observable<NsgModule[]> {
-        console.log("This is new version, getting all modules");
+        console.log("getting all modules");
         return this.http.get<NsgModule[]>('/nemea/modules')
             .pipe(
-                //map((m: object) => NsgModule.newFromApi(m))
-                map((response: object) => {
-                    let result = [];
-                    for(let instance in response['data']) {
-                        result.push(NsgInstance.newFromApi(instance));
+                map((response: object[]) => {
+                    let result: NsgModule[] = [];
+                    for(let i: number = 0; i < response.length; i++) {
+                        result.push(NsgModule.newFromApi(response[i]));
                     }
                     return result;
-                })
+                }),
+                catchError((err) => Observable.throwError(err))
             );
     }
 

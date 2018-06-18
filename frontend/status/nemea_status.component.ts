@@ -12,7 +12,7 @@ export class NemeaStatusComponent implements OnInit, OnDestroy {
     refreshing: Boolean = false;
     last_refresh_time: Date = new Date();
     img_path: any;
-    data: Object;
+    data: object;
     id: any;
 
     intervals = [
@@ -32,8 +32,8 @@ export class NemeaStatusComponent implements OnInit, OnDestroy {
 
     ngOnInit() {
         this.api.topology().subscribe(
-            (data: Object) => this.processTopology(data),
-            (error: Object) => this.processError(error));
+            (data: object) => this.processTopology(data),
+            (error: object) => this.processError(error));
 
         this.refresh();
         this.id = setInterval(() => { this.refresh(); }, (this.refresh_interval * 1000));
