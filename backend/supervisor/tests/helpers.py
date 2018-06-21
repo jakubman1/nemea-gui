@@ -17,7 +17,7 @@ class SupervisorApiTest:
         self.role = 0
         self.app = liberouterapi.app.test_client()
         self.test_headers = Headers()
-        self.test_headers.add('Authorization', 'aaaaaaaaaaaaaaaaa')
+        self.test_headers.add('lgui-Authorization', 'aaaaaaaaaaaaaaaaa')
 
     @staticmethod
     def fake_session_lookup(sess_id):
@@ -26,7 +26,7 @@ class SupervisorApiTest:
     def __add_test_headers(self, args):
         if 'headers' not in args:
             args['headers'] = Headers()
-        args['headers'].add('Authorization', 'aaaaaaaaaaaa')
+        args['headers'].add('lgui-Authorization', 'aaaaaaaaaaaa')
 
         return args
 
